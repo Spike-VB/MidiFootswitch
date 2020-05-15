@@ -32,7 +32,8 @@
 #define B_NOTE 71
 
 class Button {
-  public: boolean buttonOn; // buttonOn = true - с кнопки поступает сигнал нажатия
+  public: boolean buttonOn = false; // buttonOn = true - с кнопки поступает сигнал нажатия
+  public: boolean stateChange = false; // кнопка изменил своё состояние
   private: byte timeCounter; // счетчик времени, прошедшего с момента поступления сигнала об изменении состояния кнопки
   private: byte waitingTime; // timeCounter = waitingTime - кнопка считается изменившей своё состояние
   private: byte pin; // номер пина кнопки
@@ -75,8 +76,6 @@ Button but11(BUTTON_11_PIN, waitingTime);
 Button but12(BUTTON_12_PIN, waitingTime);
 Button button[12] = {but1, but2, but3, but4, but5, but6, but7, but8, but9, but10, but11, but12};
 
-boolean buttonChangeState[12] = {false, false, false, false, false, false, false, false, false, false, false, false};
-
 void setup() {
   Serial.begin(115200);
 }
@@ -84,8 +83,8 @@ void setup() {
 void loop() {
   for (byte i = 0; i < 12; i++) { // поочередная проверка состояния кропок с отправкой соответствующего сообщения
     button[i].scanState();
-    if (button[i].buttonOn == true && buttonChangeState[i] == false) {
-      buttonChangeState[i] = true;
+    if (button[i].buttonOn == true && button[i].stateChange == false) {
+      button[i].stateChange = true;
       //Serial.println("Button is ON");
       switch (i) {
         case 0:
@@ -126,8 +125,8 @@ void loop() {
         break;
       }
     }
-    else if (button[i].buttonOn == false && buttonChangeState[i] == true) {
-      buttonChangeState[i] = false;
+    else if (button[i].buttonOn == false && button[i].stateChange == true) {
+      button[i].stateChange = false;
       //Serial.println("Button is OFF");
       switch (i) {
         case 0:
