@@ -11,6 +11,13 @@
 #define BUTTON_11_PIN 12
 #define BUTTON_12_PIN 13
 
+#define POT_1_PIN A0
+#define POT_2_PIN A1
+#define POT_3_PIN A2
+#define POT_4_PIN A3
+#define POT_5_PIN A4
+#define POT_6_PIN A5
+
 #define C_NOTE 60
 #define Cdiez_NOTE 61
 #define D_NOTE 62
@@ -179,4 +186,3 @@ void noteOff (int pitch) {
   Serial.write(pitch);
   Serial.write(0x7F);
 }
-
